@@ -25,12 +25,12 @@ To run the bot, create a `config.go` file in the root of the project with this c
 package main
 
 const TELEGRAM_APITOKEN = "your-telegram-bot-token"
-const TELEGRAM_CHATID int64 = -1001234567890 // your group or channel chat ID
+const TELEGRAM_CHATID int64 = -12345678910 // your group or channel chat ID
 
 var RSS_FEED_URLS = []string{
-	"https://cointelegraph.com/rss",
-	"https://www.coindesk.com/arc/outboundfeeds/rss/",
-	"https://bitcoinmagazine.com/.rss/full/",
+	"news feed RSS 1"
+	"news feed RSS 2"
+	...
 }
 ```
 
