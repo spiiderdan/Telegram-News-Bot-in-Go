@@ -1,17 +1,22 @@
-# 🤖 Telegram News Bot (in Go)
+# 📰 Telegram RSS News Bot (in Go)
 
-A lightweight Telegram bot written in Go that fetches the latest articles from multiple RSS feeds and automatically sends them to a Telegram group or channel.
+This is a Telegram bot written in **Go** that automatically fetches  news from multiple RSS feeds and posts the latest headlines **(only title + link)** to a Telegram group or channel.
 
-It uses `gofeed` to parse RSS feeds and the official Telegram Bot API to post formatted updates. Sent articles are tracked and saved locally using a JSON file to avoid duplicate messages — even after restarting the bot.
+It uses:
+- 🟦 [Go Telegram Bot API](https://github.com/go-telegram-bot-api/telegram-bot-api)
+- 🟨 [GoFeed](https://github.com/mmcdole/gofeed) RSS parser
+- 🟪 SQLite for persistent tracking (so articles are never resent)
 
 ---
 
-## 🚀 Features
+## 📦 Features
 
-- Monitors multiple RSS feeds
-- Sends formatted Telegram HTML messages (title, summary, link)
-- Lightweight — no external database required
-- HTML-safe message formatting
+- ✅ Sends only the **title** and **link** of each news article
+- ✅ Automatically **skips duplicates**, even after restarts (via SQLite)
+- ✅ Supports **multiple RSS feeds**
+- ✅ Cleans unsafe HTML/markup from feeds
+- ✅ Logs every step to the console
+
 
 ---
 
