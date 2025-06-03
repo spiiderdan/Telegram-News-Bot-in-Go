@@ -1,4 +1,4 @@
-# 🤖 Telegram Crypto News Bot (in Go)
+# 🤖 Telegram News Bot (in Go)
 
 A lightweight Telegram bot written in Go that fetches the latest articles from multiple RSS feeds and automatically sends them to a Telegram group or channel.
 
