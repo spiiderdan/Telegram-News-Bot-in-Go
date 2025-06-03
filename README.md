@@ -47,7 +47,7 @@ var RSS_FEED_URLS = []string{
 
 - `main.go` initializes the bot, loads previously sent articles, and starts checking RSS feeds.
 - Each feed is parsed and checked for new items.
-- The latest article per feed is stored in `state.json` so the same article isn’t re-sent.
+- The latest article per feed is stored in `SQLite` so the same article isn’t re-sent.
 - `formatter.go` strips and escapes HTML to make Telegram-safe messages.
 - Messages are sent using Telegram's `HTML` parse mode.
 
