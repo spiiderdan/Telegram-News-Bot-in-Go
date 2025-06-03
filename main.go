@@ -8,16 +8,18 @@ import (
 	"github.com/mmcdole/gofeed"
 )
 
-// lastPublishedMap keeps track of latest sent news per feed
-var lastPublishedMap = make(map[string]string)
-
 func main() {
+	// Initialize Telegram bot
 	bot, err := tgbotapi.NewBotAPI(TELEGRAM_APITOKEN)
 	if err != nil {
-		panic(err)
+		log.Panic(err)
 	}
 	log.Printf("Authorized on account %s", bot.Self.UserName)
 
+	// Initialize SQLite database
+	initDB()
+
+	// RSS feed parser
 	parser := gofeed.NewParser()
 
 	for {
@@ -27,16 +29,20 @@ func main() {
 				log.Printf("Failed to fetch RSS (%s): %v", feedURL, err)
 				continue
 			}
+			
+			log.Println("Checked:", feedURL) //checks if the news has been sent before
 
 			if len(feed.Items) > 0 {
 				item := feed.Items[0]
-				lastSent := lastPublishedMap[feedURL]
 
-				if item.Published != lastSent {
-					lastPublishedMap[feedURL] = item.Published
+				// Use GUID or fallback to Link
+				articleID := item.GUID
+				if articleID == "" {
+					articleID = item.Link
+				}
 
-					message := FormatNewsMessage(item.Title, item.Description, item.Link)
-
+				if !articleAlreadySent(feedURL, articleID) {
+					message := "<b>" + escapeHTML(item.Title) + "</b>\n" + item.Link
 
 					msg := tgbotapi.NewMessage(TELEGRAM_CHATID, message)
 					msg.ParseMode = "HTML"
@@ -46,11 +52,12 @@ func main() {
 						log.Println("Failed to send message:", err)
 					} else {
 						log.Println("Message sent:", item.Title)
+						markArticleAsSent(feedURL, articleID)
 					}
 				}
 			}
 		}
 
-		time.Sleep(5 * time.Minute)
+		time.Sleep(1 * time.Minute)
 	}
 }
